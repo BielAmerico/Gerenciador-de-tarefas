@@ -27,10 +27,12 @@ public class FilterTaskAuth extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String servletPath = request.getServletPath();
-
-		if (servletPath.equals("/tasks/")) {
+		
+		System.out.println("PATH" + servletPath);
+		if (servletPath.startsWith("/tasks/")) {
 
 			var authorization = request.getHeader("Authorization");
+			
 			var authEncoded = authorization.substring("Basic".length()).trim();
 
 			byte[] authDecode = Base64.getDecoder().decode(authEncoded);
@@ -40,7 +42,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
 			System.out.println("Authorization");
 			System.out.println(authString);
 
-			// ["gabriamerican" , 01234"]
+			
 			String[] credentials = authString.split(":");
 			var username = credentials[0];
 			var password = credentials[1];
@@ -50,7 +52,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
 
 			authorization.substring("Basic".length()).trim();
 
-			// validar usu
+			//validar usuário
 			var user = this.userRepository.findByUsername(username);
 
 			if (user == null) {
@@ -60,7 +62,8 @@ public class FilterTaskAuth extends OncePerRequestFilter {
 				var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
 
 				if (passwordVerify.verified) {
-					// segue viagem
+					//segue viagem
+					
 					request.setAttribute("idUser", user.getId());
 					filterChain.doFilter(request, response);
 
