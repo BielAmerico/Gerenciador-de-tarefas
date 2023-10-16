@@ -27,7 +27,7 @@ class TaskTest {
 	@Test
 	public void ValidatesIftheEndDateIsLessThanTheStartDate() {
 
-		LocalDate endDate = LocalDate.parse("2023-10-16");
+		LocalDate endDate = LocalDate.parse("2023-10-15");
 		LocalDate startDate = LocalDate.parse("2023-10-16");
 		Assertions.assertTrue(endDate.isBefore(startDate));
 	}
